@@ -12,7 +12,7 @@ namespace CogipRestAPI.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllContacts()
         {
-            return new string[] { "value1", "value2" };
+            return Ok();
         }
 
         // GET api/<ValuesController>/5

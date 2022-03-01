@@ -25,8 +25,4 @@
     <ProjectReference Include="..\CogipRestAPI.Service\CogipRestAPI.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\" />
-  </ItemGroup>
-
 </Project>

@@ -31,7 +31,7 @@ namespace CogipRestAPI.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetCompanyById(int id)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(h => h.Id == id);
+            var company = await _context.Companies.FirstOrDefaultAsync(h => h.CompanyId == id);
 
             if (company == null)
                 return NotFound();
@@ -47,14 +47,14 @@ namespace CogipRestAPI.Api.Controllers
         {
             _context.Companies.Add(company);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCompanyById), new { id = company.Id }, company);
+            return CreatedAtAction(nameof(GetCompanyById), new { id = company.CompanyId }, company);
         }
 
         // PUT api/<CompanyController>/5
         [HttpPut("{id}")]
         public async Task<ActionResult> PutCompany(int id, [FromBody] Company company)
         {
-            company.Id = id;
+            company.CompanyId = id;
 
             _context.Companies.Update(company);
             await _context.SaveChangesAsync();
@@ -65,7 +65,7 @@ namespace CogipRestAPI.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCompany(int id)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == id);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.CompanyId == id);
 
             if (company == null)
                 return NotFound();

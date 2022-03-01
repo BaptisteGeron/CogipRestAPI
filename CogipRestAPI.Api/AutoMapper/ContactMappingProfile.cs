@@ -6,7 +6,7 @@ namespace CogipRestAPI.Api.AutoMapper
     {
         public ContactMappingProfile()
         {
-            CreateMap<>
+           // CreateMap<>
         }
     }
 }
