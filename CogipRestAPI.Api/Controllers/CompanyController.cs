@@ -1,4 +1,5 @@
-﻿using CogipRestAPI.Domain.Abstractions;
+﻿using AutoMapper;
+using CogipRestAPI.Domain.Abstractions;
 using CogipRestAPI.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,19 +12,21 @@ namespace CogipRestAPI.Api.Controllers
     [ApiController]
     public class CompanyController : Controller
     {
-        private readonly DataContext _context;
         private readonly HttpContext _http;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IMapper _mapper;
 
-        public CompanyController(DataContext context, IHttpContextAccessor httpContextAccessor)
+        public CompanyController(ICompanyRepository companyRepository, IHttpContextAccessor httpContextAccessor, IMapper mapper)
         {
-            _context = context;
+            _companyRepository = companyRepository;
             _http = httpContextAccessor.HttpContext;
+            _mapper = mapper;
         }
         // GET: api/<CompanyController>
         [HttpGet]
         public async Task<ActionResult> GetAllCompanies()
         {
-            var companies = await _context.Companies.ToListAsync();
+            var companies = await _companyRepository.GetAllCompaniesAsync();
             return Ok(companies);
         }
 
@@ -31,7 +34,7 @@ namespace CogipRestAPI.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetCompanyById(int id)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(h => h.CompanyId == id);
+            var company = _companyRepository.GetCompanyByIdAsync(id);
 
             if (company == null)
                 return NotFound();
@@ -45,8 +48,7 @@ namespace CogipRestAPI.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> PostCompany([FromBody] Company company)
         {
-            _context.Companies.Add(company);
-            await _context.SaveChangesAsync();
+            company = await _companyRepository.CreateCompanyAsync(company);
             return CreatedAtAction(nameof(GetCompanyById), new { id = company.CompanyId }, company);
         }
 
@@ -56,8 +58,7 @@ namespace CogipRestAPI.Api.Controllers
         {
             company.CompanyId = id;
 
-            _context.Companies.Update(company);
-            await _context.SaveChangesAsync();
+            await _companyRepository.UpdateCompanyAsync(id, company);
             return NoContent();
         }
 
@@ -65,13 +66,10 @@ namespace CogipRestAPI.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCompany(int id)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.CompanyId == id);
+            var company = await _companyRepository.DeleteCompanyAsync(id);
 
             if (company == null)
                 return NotFound();
-
-            _context.Companies.Remove(company);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }

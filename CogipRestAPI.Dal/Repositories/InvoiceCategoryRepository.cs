@@ -26,7 +26,7 @@ namespace CogipRestAPI.Dal.Repositories
 
         public async Task<InvoiceCategory> DeleteInvoiceCategoryAsync(int id)
         {
-            var invoiceCategory = await _ctx.InvoicesCategory.FirstOrDefaultAsync(i => i.CategoryId == id);
+            var invoiceCategory = await _ctx.InvoicesCategory.FirstOrDefaultAsync(i => i.InvoiceCategoryId == id);
             if (invoiceCategory != null)
                 return null;
             _ctx.InvoicesCategory.Remove(invoiceCategory);
@@ -41,7 +41,7 @@ namespace CogipRestAPI.Dal.Repositories
 
         public async Task<InvoiceCategory> GetCategoryByIdAsync(int id)
         {
-            var category = await _ctx.InvoicesCategory.FirstOrDefaultAsync(c => c.CategoryId == id);
+            var category = await _ctx.InvoicesCategory.FirstOrDefaultAsync(c => c.InvoiceCategoryId == id);
             if (category != null)
                 return null;
             return category;

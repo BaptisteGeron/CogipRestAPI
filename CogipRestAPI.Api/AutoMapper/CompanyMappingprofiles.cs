@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using cogip.Models;
+using CogipRestAPI.Domain.Models;
 
 namespace CogipRestAPI.Api.AutoMapper
 {
@@ -6,7 +8,8 @@ namespace CogipRestAPI.Api.AutoMapper
     {
         public CompanyMappingProfiles()
         {
-          // CreateMap<>
+            CreateMap<Company, CompanyGetDto>();
+            CreateMap<Company, CompanyPostDto>();
         }
     }
 }

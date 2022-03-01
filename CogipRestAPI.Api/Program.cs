@@ -1,5 +1,7 @@
 global using CogipRestAPI.Dal;
+using CogipRestAPI.Dal.Repositories;
 using CogipRestAPI.Domain.Abstractions;
+using CogipRestAPI.Domain.Abstractions.Repositories;
 using CogipRestAPI.Service;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +27,9 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(cs);
 });
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 var app = builder.Build();
 

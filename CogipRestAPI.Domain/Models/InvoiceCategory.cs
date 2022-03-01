@@ -8,7 +8,7 @@ namespace CogipRestAPI.Domain.Models
 {
     public class InvoiceCategory
     {
-        public int CategoryId { get; set; }
+        public int InvoiceCategoryId { get; set; }
         public string Category { get; set; }
     }
 }

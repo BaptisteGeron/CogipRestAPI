@@ -18,12 +18,12 @@ namespace CogipRestAPI.Service
 
         public List<Company> ProcessContacts()
         {
-            var companies = _repo.GetCompanies();
+            var companies = _repo.GetAllCompaniesAsync();
             var processed = new List<Company>();
-            foreach (var company in companies)
-            {
-                processed.Add(company);
-            }
+            //foreach (var company in companies)
+            //{
+            //    processed.Add(company);
+            //}
             return processed;
         }
     }
