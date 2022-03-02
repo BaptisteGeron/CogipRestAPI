@@ -30,9 +30,9 @@ namespace CogipRestAPI.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetInvoiceCategoryById(int id)
         {
-            var invoiceCategory = _invoiceCategoryRepository.GetCategoryByIdAsync(id);
+            var invoiceCategory = await _invoiceCategoryRepository.GetCategoryByIdAsync(id);
             if (invoiceCategory == null)
-                return BadRequest();
+                return BadRequest("Category not found ...");
             return Ok(invoiceCategory);
         }
 
@@ -60,7 +60,7 @@ namespace CogipRestAPI.Api.Controllers
         {
             var invoiceCategory = await _invoiceCategoryRepository.DeleteInvoiceCategoryAsync(id);
             if (invoiceCategory == null)
-                return NotFound();
+                return NotFound("No Category with this id found...");
             return Ok(invoiceCategory);
         }
     }

@@ -24,7 +24,7 @@ namespace CogipRestAPI.Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAllInvoices()
         {
-            var invoices = _invoiceRepository.GetAllInvoicesAsync();
+            var invoices = await _invoiceRepository.GetAllInvoicesAsync();
             return Ok(invoices);
         }
 
@@ -32,9 +32,9 @@ namespace CogipRestAPI.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetInvoiceById(int id)
         {
-            var invoice = _invoiceRepository.GetInvoiceByIdAsync(id);
+            var invoice = await _invoiceRepository.GetInvoiceByIdAsync(id);
             if (invoice == null)
-                return BadRequest();
+                return BadRequest("Invoice not found...");
             return Ok(invoice);
         }
 
@@ -59,9 +59,9 @@ namespace CogipRestAPI.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteInvoice(int id)
         {
-            var invoice = _invoiceRepository.DeleteInvoiceAsync(id);
+            var invoice = await _invoiceRepository.DeleteInvoiceAsync(id);
             if (invoice == null)
-                return NotFound();
+                return NotFound("No Invoice with this id found...");
             return Ok(invoice);
         }
     }

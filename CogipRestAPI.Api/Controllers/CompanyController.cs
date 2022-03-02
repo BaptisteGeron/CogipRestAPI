@@ -34,7 +34,7 @@ namespace CogipRestAPI.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetCompanyById(int id)
         {
-            var company = _companyRepository.GetCompanyByIdAsync(id);
+            var company = await _companyRepository.GetCompanyByIdAsync(id);
 
             if (company == null)
                 return NotFound();

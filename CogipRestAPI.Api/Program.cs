@@ -4,6 +4,7 @@ using CogipRestAPI.Domain.Abstractions;
 using CogipRestAPI.Domain.Abstractions.Repositories;
 using CogipRestAPI.Service;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
+builder.Services.AddScoped<IInvoiceCategoryRepository, InvoiceCategoryRepository>();
 
 var app = builder.Build();
 
