@@ -10,6 +10,6 @@
         public string phonenumber { get; set; }
         public DateTime added { get; set; }
 
-        public int[] companies { get; set; }
+        public List<int> companies { get; set; }
     }
 }

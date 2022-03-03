@@ -29,7 +29,7 @@ namespace CogipRestAPI.Dal.Repositories
             }
             company.Contacts = companyContacts;
             _ctx.Companies.Add(company);
-            _ctx.Entry(company).State = EntityState.Modified;
+            //_ctx.Entry(company).State = EntityState.Modified;
             await _ctx.SaveChangesAsync();
             return company;
         }

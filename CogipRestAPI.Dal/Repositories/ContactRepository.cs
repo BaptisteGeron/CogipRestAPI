@@ -17,8 +17,17 @@ namespace CogipRestAPI.Dal.Repositories
             _ctx = ctx;
         }
 
-        public async Task<Contact> CreateContactAsync(Contact contact)
+        public async Task<Contact> CreateContactAsync(Contact contact, List<int> companies)
         {
+            var contactCompanies = new List<Company>();
+            foreach (var company in companies)
+            {
+                var companyForId = await _ctx.Companies
+                    .Where(x => x.CompanyId == company)
+                    .ToListAsync();
+                contactCompanies.Add(companyForId.FirstOrDefault());
+            }
+            contact.Companies = contactCompanies;
             _ctx.Contacts.Add(contact);
             await _ctx.SaveChangesAsync();
             return contact;
@@ -44,14 +53,26 @@ namespace CogipRestAPI.Dal.Repositories
 
         public async Task<Contact> GetContactByIdAsync(int id)
         {
-            var contact = await _ctx.Contacts.FirstOrDefaultAsync(c => c.ContactId == id);
+            var contact = await _ctx.Contacts
+                .Where(c => c.ContactId == id)
+                .Include(c => c.Companies).ToListAsync();
             if (contact == null)
                 return null;
-            return contact;
+            var getContact = contact.FirstOrDefault();
+            return getContact;
         }
 
-        public async Task<Contact> UpdateContactAsync(int id, Contact contact)
+        public async Task<Contact> UpdateContactAsync(int id, Contact contact, List<int> companies)
         {
+            var contactCompanies = new List<Company>();
+            foreach (var company in companies)
+            {
+                var companyForId = await _ctx.Companies
+                    .Where(x => x.CompanyId == company)
+                    .ToListAsync();
+                contactCompanies.Add(companyForId.FirstOrDefault());
+            }
+            contact.Companies = contactCompanies;
             _ctx.Contacts.Update(contact);
             await _ctx.SaveChangesAsync();
             return contact;

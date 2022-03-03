@@ -11,8 +11,8 @@ namespace CogipRestAPI.Domain.Abstractions.Repositories
     {
         Task<List<Contact>> GetAllContactsAsync();
         Task<Contact> GetContactByIdAsync(int id);
-        Task<Contact> CreateContactAsync(Contact contact);
-        Task<Contact> UpdateContactAsync(int id, Contact contact);
+        Task<Contact> CreateContactAsync(Contact contact, List<int> companies);
+        Task<Contact> UpdateContactAsync(int id, Contact contact, List<int> companies);
         Task<Contact> DeleteContactAsync(int id);
 
     }
