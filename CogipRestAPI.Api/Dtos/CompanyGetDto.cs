@@ -14,6 +14,6 @@
         public string streetnumber { get; set; }
         public string latitude { get; set; }
         public string longitude { get; set; }
-        public int[] contacts { get; set; }
+        public List<int> Contacts { get; set; }
     }
 }

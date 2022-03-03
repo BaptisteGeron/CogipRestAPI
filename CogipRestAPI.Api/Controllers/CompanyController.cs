@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using cogip.Models;
 using CogipRestAPI.Domain.Abstractions;
 using CogipRestAPI.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,22 @@ namespace CogipRestAPI.Api.Controllers
         public async Task<ActionResult> GetAllCompanies()
         {
             var companies = await _companyRepository.GetAllCompaniesAsync();
-            return Ok(companies);
+            var getCompanies = new List<CompanyGetDto>();
+           
+            foreach (var company in companies)
+            {
+                var getCompany = new CompanyGetDto();
+                var contactIds = new List<int>();
+                var contacts = company.Contacts;
+                foreach (var contact in contacts)
+                {
+                    contactIds.Add(contact.ContactId);
+                }
+                getCompany = _mapper.Map<CompanyGetDto>(company);
+                getCompany.Contacts = contactIds;
+                getCompanies.Add(getCompany);
+            }
+            return Ok(getCompanies);
         }
 
         // GET api/<CompanyController>/5
@@ -39,26 +55,44 @@ namespace CogipRestAPI.Api.Controllers
             if (company == null)
                 return NotFound();
 
-            //var CompanyGet = _mapper.Map<CompanyGetDto>(company);
+            var getCompany = new CompanyGetDto();
+            var contactIds = new List<int>();
+            var contacts = company.Contacts;
+            if (company.Contacts != null)
+            {
+                foreach (var contact in contacts)
+                {
+                    contactIds.Add(contact.ContactId);
+                }
+                getCompany = _mapper.Map<CompanyGetDto>(company);
+                getCompany.Contacts = contactIds;
+            }
+            
 
-            return Ok(company);
+            return Ok(getCompany);
         }
 
         // POST api/<CompanyController>
         [HttpPost]
-        public async Task<ActionResult> PostCompany([FromBody] Company company)
+        public async Task<ActionResult> PostCompany([FromBody] CompanyPostPutDto companypostputdto)
         {
-            company = await _companyRepository.CreateCompanyAsync(company);
+            //TODO: add location provider service here
+            var contacts = companypostputdto.contacts.ToList();
+            var company = _mapper.Map<Company>(companypostputdto);
+            company = await _companyRepository.CreateCompanyAsync(company, contacts);
             return CreatedAtAction(nameof(GetCompanyById), new { id = company.CompanyId }, company);
         }
 
         // PUT api/<CompanyController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutCompany(int id, [FromBody] Company company)
+        public async Task<ActionResult> PutCompany(int id, [FromBody] CompanyPostPutDto companypostputdto)
         {
+            //TODO: add location provider service here
+            var contacts = companypostputdto.contacts;
+            var company = _mapper.Map<Company>(companypostputdto);
             company.CompanyId = id;
 
-            await _companyRepository.UpdateCompanyAsync(id, company);
+            await _companyRepository.UpdateCompanyAsync(id, company, contacts);
             return NoContent();
         }
 

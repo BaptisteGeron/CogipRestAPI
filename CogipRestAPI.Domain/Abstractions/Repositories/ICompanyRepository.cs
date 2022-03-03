@@ -11,8 +11,8 @@ namespace CogipRestAPI.Domain.Abstractions
     {
        Task<List<Company>> GetAllCompaniesAsync();
         Task<Company> GetCompanyByIdAsync(int id);
-        Task<Company> CreateCompanyAsync(Company company);
-        Task<Company> UpdateCompanyAsync(int id, Company company);
+        Task<Company> CreateCompanyAsync(Company company, List<int> contacts);
+        Task<Company> UpdateCompanyAsync(int id, Company company, List<int> contacts);
         Task<Company> DeleteCompanyAsync(int id);
     }
 }

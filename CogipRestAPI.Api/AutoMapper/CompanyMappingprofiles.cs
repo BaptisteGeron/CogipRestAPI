@@ -8,8 +8,12 @@ namespace CogipRestAPI.Api.AutoMapper
     {
         public CompanyMappingProfiles()
         {
-            CreateMap<Company, CompanyGetDto>();
-            CreateMap<Company, CompanyPostDto>();
+            CreateMap<Company, CompanyGetDto>()
+                .ForMember(c => c.Contacts, y => y.Ignore())
+                .ForMember(c => c.id, opt => opt.MapFrom(src => src.CompanyId));
+            CreateMap<CompanyPostPutDto, Company>()
+                .ForMember(c => c.Contacts, y => y.Ignore())
+                .ForMember(c => c.CompanyId, y => y.Ignore());
         }
     }
 }

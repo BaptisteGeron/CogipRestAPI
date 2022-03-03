@@ -36,7 +36,10 @@ namespace CogipRestAPI.Dal.Repositories
 
         public async Task<List<Contact>> GetAllContactsAsync()
         {
-            return await _ctx.Contacts.ToListAsync();
+
+            return await _ctx.Contacts
+                .Include(c => c.Companies)
+                .ToListAsync();
         }
 
         public async Task<Contact> GetContactByIdAsync(int id)

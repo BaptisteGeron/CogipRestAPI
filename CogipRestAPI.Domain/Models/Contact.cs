@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CogipRestAPI.Domain.Models
@@ -15,7 +16,7 @@ namespace CogipRestAPI.Domain.Models
         public string? Email { get; set; }
         public string? Phonenumber { get; set; }
         public DateTime ContactAdded { get; set; } = DateTime.Now;
-
+        
         public List<Company>? Companies { get; set; }
     }
 }
